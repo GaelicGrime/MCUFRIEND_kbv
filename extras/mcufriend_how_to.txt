@@ -1,4 +1,4 @@
-1. The Arduino Library Manager should find and install MCUFRIEND_kbv library
+1. The Arduino Library Manager should find and install MCUFRIEND_kbv_mods library
 
 2. Install the Adafruit_GFX library if not already in your User libraries.
 
@@ -14,10 +14,10 @@
 
 8. The examples are the standard Adafruit ones.   You can see my edits by searching for "kbv"
 
-9. Any Adafruit sketch should work with the MCUFRIEND_kbv constructor() but should allow extra ID values
+9. Any Adafruit sketch should work with the MCUFRIEND_kbv_mods constructor() but should allow extra ID values
 An Adafruit constructor(cs, rs, wr, rd, rst) IGNORES any arguments.   i.e. it only uses the shield control pins
 
-MCUFRIEND_kbv inherits all the methods from 
+MCUFRIEND_kbv_mods inherits all the methods from 
 the Adafruit_GFX class: https://learn.adafruit.com/adafruit-gfx-graphics-library/overview 
 and Print class: https://www.arduino.cc/en/Serial/Print
 
@@ -93,7 +93,7 @@ UNKNOWN  240x320  ID=0x3229 readGRAM() does not work properly.   NEED DATASHEET.
 UNKNOWN  240x320  ID=0xE300 weird controller from BangGood.   NEED DATASHEET
 
 Most of these controllers are #define SUPPORT_xxxx by default.
-You can save Flash memory on a Uno by commenting out the macro(s) in MCUFRIEND_kbv.cpp
+You can save Flash memory on a Uno by commenting out the macro(s) in MCUFRIEND_kbv_mods.cpp
 
 11. It should run on a UNO, MEGA2560, LEONARDO, DUE, ZERO, M0-PRO, 
 It also runs on NUCLEO-F103 and TEENSY3.2 with Sparkfun Adapter
@@ -115,7 +115,7 @@ It also runs on NUCLEO-F103 and TEENSY3.2 with Sparkfun Adapter
 
 16. The GLUE_Demo_320x240.ino sketch uses a "GLUE" class to display a UTFT sketch on supported mcufriend shields.   
     It is NOT perfect.   Please report any problems.    It is designed as a CONVENIENCE for legacy UTFT code.   
-    Please use MCUFRIEND_kbv method()s in new code. 
+    Please use MCUFRIEND_kbv_mods method()s in new code. 
 
 17. If you do not have a standard Uno Shield, you can add a SPECIAL to the mcufriend_special.h
     Edit mcufriend_shield.h:  #define USE_SPECIAL
@@ -127,7 +127,7 @@ It also runs on NUCLEO-F103 and TEENSY3.2 with Sparkfun Adapter
 19. OPEN-SMART Shields have different wiring to regular Uno Shields:
     Edit utility/mcufriend_shield.h:  #define USE_SPECIAL
     Edit utility/mcufriend_special.h: #define USE_OPENSMART_SHIELD_PINOUT_xxx e.g. USE_OPENSMART_SHIELD_PINOUT_MEGA
-    Edit MCUFRIEND_kbv.cpp:           #define SUPPORT_8352B
+    Edit MCUFRIEND_kbv_mods.cpp:           #define SUPPORT_8352B
 
 20. OPEN-SMART Shields can not read LM75A on a Mega because there are no SDA/SCL pins next on AREF header.
     Uno:  LM75A on pcb works.  Difficult to add external I2C devices when Shield is plugged in.

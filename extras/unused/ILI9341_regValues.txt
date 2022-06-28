@@ -1,6 +1,6 @@
     case 0x9341:
         _lcd_capable = AUTO_READINC | TWO_PARM_WINDOW | MV_AXIS;
-        static const uint8_t ILI9341_regValues_kbv[] PROGMEM = {  //.kbv MCUFRIEND_kbv
+        static const uint8_t ILI9341_regValues_kbv[] PROGMEM = {  //.kbv MCUFRIEND_kbv_mods
             0x01, 0,            // software reset
             TFTLCD_DELAY, 150,  // 5ms if awake,  125ms if asleep.
             0xCB, 5, 0x39, 0x2C, 0x00, 0x34, 0x02,      //Power Control A [39 2C 00 34 02]

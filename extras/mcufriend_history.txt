@@ -21,7 +21,7 @@ v2.9.1:
     added HX8357-D, R61581, 
 
 v2.9: posted 05 May 2016
-    MCUFRIEND_kbv.cpp:  
+    MCUFRIEND_kbv_mods.cpp:  
 			Added pushCommand() method   to send block of 8-bit SRAM data to MIPI controller
 			SSD1963 fixed aspects.
 			Added ILI9302
@@ -38,7 +38,7 @@ v2.9: posted 05 May 2016
 	        write(0xB0, 0x00) after hardware Reset to read manufacturer locations.
 			added some extra registers.
 v2.8: posted 26 February 2016
-    MCUFRIEND_kbv.cpp:  LANDSCAPE is now 90 degrees instead of 270 degrees
+    MCUFRIEND_kbv_mods.cpp:  LANDSCAPE is now 90 degrees instead of 270 degrees
 	                methods branch on MIPI / 9320 style
 			Added SPFD5408
 			Added R61505W     Untested
@@ -50,11 +50,11 @@ v2.8: posted 26 February 2016
 	
 v2.7: posted ........ NOT YET
 v2.6: posted ........ NOT YET
-    MCUFRIEND_kbv.cpp:  
+    MCUFRIEND_kbv_mods.cpp:  
                         Added R65105V
 						
 v2.5: posted 11 January 2016
-    MCUFRIEND_kbv.cpp:  
+    MCUFRIEND_kbv_mods.cpp:  
                         Added ST7789V
                         Added RM68090
                         Added ILI9481
@@ -75,10 +75,10 @@ v2.5: posted 11 January 2016
     UTFTGLUE.h:         improve calculate width and height of rectangles from coordinates.
     
 v2.4: posted 10 December 2015
-    MCUFRIEND_kbv.cpp:  LGDP4535 initialisation table fixed - UNTESTED 
+    MCUFRIEND_kbv_mods.cpp:  LGDP4535 initialisation table fixed - UNTESTED 
     
 v2.3: posted 8 December 2015
-    MCUFRIEND_kbv.cpp:  added S6D0139 UNTESTED
+    MCUFRIEND_kbv_mods.cpp:  added S6D0139 UNTESTED
                         detect EXTC=0 ILI9341 shield from DX with ID == 0x0000.   drive in RGB mode
                         ILI9327 should Vertical Scroll now. UNTESTED
     UTFTGLUE.h:         extra print(const char*) method to avoid warning messages
@@ -92,19 +92,19 @@ v2.3: posted 8 December 2015
     UTouch_Calibr_kbv:  can use UTouch.h library for hardware Touch Controllers (and UTFT)
 
 v2.2: posted 15 November 2015
-    MCUFRIEND_kbv.cpp:  changed readGRAM() for ILI9327, ILI9486,
+    MCUFRIEND_kbv_mods.cpp:  changed readGRAM() for ILI9327, ILI9486,
                         added REV_SCREEN flag to _lcd_capable
                         implement invertDisplay()
                         added LGDP4535
                         ILI9327: set Partial Area to 0, 399                        
-    MCUFRIEND_kbv.h:    USE_GFX_KBV default argument: println(char *s="")
+    MCUFRIEND_kbv_mods.h:    USE_GFX_KBV default argument: println(char *s="")
     MCUFRIEND_shield.h: regular Uno shield drivers for Uno, Mega, Leonardo, Due, Zero
     MCUFRIEND_special.h:  experimental drivers
     UTFTGLUE.h:         identity kludges for non-UNO shields
     LCD_ID_readreg.ino: report reg(0x09)
 
 v2.1: posted 9 November 2015
-    MCUFRIEND_kbv.cpp:  return 0x9327 / 0x9481 in readID()
+    MCUFRIEND_kbv_mods.cpp:  return 0x9327 / 0x9481 in readID()
     MCUFRIEND_shield.h: increase low pulse width in RD_STROBE
     EXAMPLES/:          add scroll_kbv.ino sketch
                         edit readpixel_kbv_ino,  aspect_kbv.ino

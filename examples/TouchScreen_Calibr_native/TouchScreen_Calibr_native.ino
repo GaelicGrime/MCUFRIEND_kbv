@@ -19,8 +19,8 @@
 
 #define TITLE "TouchScreen.h GFX Calibration"
 #include <Adafruit_GFX.h>
-#include <MCUFRIEND_kbv.h>
-MCUFRIEND_kbv tft;
+#include <MCUFRIEND_kbv_mods.h>
+MCUFRIEND_kbv_mods tft;
 
 // MCUFRIEND UNO shield shares pins with the TFT.
 #if defined(ESP32)

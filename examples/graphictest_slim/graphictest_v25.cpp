@@ -24,8 +24,8 @@
 #else
 #include "Adafruit_GFX.h"
 #endif
-#include <MCUFRIEND_kbv.h>
-MCUFRIEND_kbv tft;
+#include <MCUFRIEND_kbv_mods.h>
+MCUFRIEND_kbv_mods tft;
 //#include <Adafruit_TFTLCD.h>
 //Adafruit_TFTLCD tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
 
@@ -85,7 +85,7 @@ void setup(void) {
     tft.begin(g_identifier);
 }
 
-#if defined(MCUFRIEND_KBV_H_)
+#if defined(MCUFRIEND_KBV_MODS_H_)
 uint16_t scrollbuf[480];    // my biggest screen is 320x480
 #define READGRAM(x, y, buf, w, h)  tft.readGRAM(x, y, buf, w, h)
 #else
@@ -156,7 +156,7 @@ void loop(void) {
             delay(1000);
             tft.drawPixel(0, 0, YELLOW);
             pixel = tft.readPixel(0, 0);
-#if defined(MCUFRIEND_KBV_H_)
+#if defined(MCUFRIEND_KBV_MODS_H_)
 #if HOW_SLIM < 3
             extern const uint8_t penguin[];
             tft.setAddrWindow(wid - 40 - 40, 20 + 0, wid - 1 - 40, 20 + 39);

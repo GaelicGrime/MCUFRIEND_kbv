@@ -1,11 +1,11 @@
 /*
- * MCUFRIEND_kbv class inherits from Adafruit_GFX class and the Arduino Print class.
- * Any use of MCUFRIEND_kbv class and examples is dependent on Adafruit and Arduino licenses
+ * MCUFRIEND_kbv_mods class inherits from Adafruit_GFX class and the Arduino Print class.
+ * Any use of MCUFRIEND_kbv_mods class and examples is dependent on Adafruit and Arduino licenses
  * The license texts are in the accompanying license.txt file
  */
 
-#ifndef MCUFRIEND_KBV_H_
-#define MCUFRIEND_KBV_H_   300
+#ifndef MCUFRIEND_KBV_MODS_H_
+#define MCUFRIEND_KBV_MODS_H_   300
 
 //#define USE_SERIAL
 
@@ -16,11 +16,11 @@
 #include "Adafruit_GFX.h"
 #endif
 
-class MCUFRIEND_kbv : public Adafruit_GFX {
+class MCUFRIEND_kbv_mods : public Adafruit_GFX {
 
 	public:
-//	MCUFRIEND_kbv(int CS=A3, int RS=A2, int WR=A1, int RD=A0, int RST=A4); //shield wiring
-	MCUFRIEND_kbv(int CS=0, int RS=0, int WR=0, int RD=0, int _RST=0);  //dummy arguments 
+//	MCUFRIEND_kbv_mods(int CS=A3, int RS=A2, int WR=A1, int RD=A0, int RST=A4); //shield wiring
+	MCUFRIEND_kbv_mods(int CS=0, int RS=0, int WR=0, int RD=0, int _RST=0);  //dummy arguments 
 	void     reset(void);                                       // you only need the constructor
 	void     begin(uint16_t ID = 0x9341);                       // you only need the constructor
 	virtual void     drawPixel(int16_t x, int16_t y, uint16_t color);  // and these three

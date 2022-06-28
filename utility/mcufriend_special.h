@@ -3,14 +3,14 @@
 //#define USE_MEGA_8BIT_PROTOSHIELD
 //#define USE_MEGA_8BIT_SHIELD      // 4.7sec Mega2560 Shield
 //#define USE_MEGA_8BIT_PORTC_SHIELD // 4.7sec Mega2560 Shield
-//#define USE_MEGA_16BIT_SHIELD     // 2.14sec Mega2560 Shield 
+//#define USE_MEGA_16BIT_SHIELD     // 2.14sec Mega2560 Shield
 //#define USE_BLD_BST_MEGA32U4
 //#define USE_BLD_BST_MEGA2560      // 12.23sec Uno Shield (17.38s C)
 //#define USE_BLD_BST_MEGA4809      // 5.43sec XPRO-Adapter (7.09s C)
 //#define USE_DUE_8BIT_PROTOSHIELD
-//#define USE_DUE_16BIT_SHIELD        //RD on PA15 (D24) 
+//#define USE_DUE_16BIT_SHIELD        //RD on PA15 (D24)
 //#define USE_BOBCACHELOT_TEENSY
-//#define USE_OPENSMART_SHIELD_PINOUT_UNO
+#define USE_OPENSMART_SHIELD_PINOUT_UNO
 //#define USE_OPENSMART_SHIELD_PINOUT_MEGA
 //#define USE_OPENSMART_SHIELD_PINOUT_DUE //thanks Michel53
 //#define USE_ELECHOUSE_DUE_16BIT_SHIELD    //Untested yet
@@ -47,7 +47,7 @@ ST7796S  tWC = 66ns  tWRH = 15ns  tRCFM = 450ns  tRC = 160ns
 #if 0
 
 //################################### Curiosity AVR128DA48 ##############################
-#elif defined(__AVR_AVR128DA48__) && defined(USE_CURIOSITY_AVR128DA48)     // 
+#elif defined(__AVR_AVR128DA48__) && defined(USE_CURIOSITY_AVR128DA48)     //
 #warning Curiosity AVR128DA48
 //LCD pins  |D7 |D6 |D5 |D4 |D3 |D2 |D1 |D0 | |RD |WR |RS |CS |RST| |SDA0|SCL0| |SDA1|SCL1|
 //DA48  pin |PA3|PA2|PB5|PB4|PB3|PB2|PB1|PB0| |PD0|PD1|PD2|PD3|PD4| |PC2 |PC3 | |PF2 |PF3 |
@@ -245,7 +245,7 @@ ST7796S  tWC = 66ns  tWRH = 15ns  tRCFM = 450ns  tRC = 160ns
 #define VPMAP32 0x32    // VPORT0=A, 1=B, 2=C, 3=D
 #define DATPORT VPORT2  //PORTC
 #define CTLPORT VPORT1  //PORTB
-#define RD_PORT CTLPORT //PB0. 
+#define RD_PORT CTLPORT //PB0.
 #define RD_PIN  0
 #define WR_PORT CTLPORT
 #define WR_PIN  1
@@ -277,7 +277,7 @@ ST7796S  tWC = 66ns  tWRH = 15ns  tRCFM = 450ns  tRC = 160ns
 #if defined(VPMAP10)
 #define MAP_VPORTS() { PORTCFG.VPCTRLA=VPMAP10; PORTCFG.VPCTRLB=VPMAP32; }
 #else
-#define MAP_VPORTS() 
+#define MAP_VPORTS()
 #endif
 
 // VPORTs are very fast.   CBI, SBI are only one cycle.    Hence all those RD_ACTIVEs
@@ -307,7 +307,7 @@ ST7796S  tWC = 66ns  tWRH = 15ns  tRCFM = 450ns  tRC = 160ns
 //4809  pin |PE1|PB3|PF6|PC7|PC6|PB2|PA3|PA2| |PD2|PD3|PD4|PD5|PC2| |PA7]PA4|
 //XPRO      |215|210|206|110|109|209|106|105| |103|104|203|204|111| |115|116|
 //UNO pins  |7  |6  |5  |4  |3  |2  |9  |8  | |A0 |A1 |A2 |A3 |A4 | |10 |11 |
-//XPRO Shield Adapter SW100=down for D11=EXT1.16.  SW101=up for D3=EXT1.9 
+//XPRO Shield Adapter SW100=down for D11=EXT1.16.  SW101=up for D3=EXT1.9
 #warning XPRO-4809 with XPRO-Shield_Adapter using PORT.OUTSET
 #define RD_PORT PORTD  //
 #define RD_PIN  2
@@ -332,7 +332,7 @@ ST7796S  tWC = 66ns  tWRH = 15ns  tRCFM = 450ns  tRC = 160ns
                         PORTC.OUTCLR = CMASK; PORTC.OUTSET = (((x) & (3<<3)) << 3); \
                         PORTE.OUTCLR = EMASK; PORTE.OUTSET = (((x) & (1<<7)) >> 6); \
                         PORTF.OUTCLR = FMASK; PORTF.OUTSET = (((x) & (1<<5)) << 1); \
-					 }
+           }
 #define read_8()      ( ((PORTA.IN & AMASK) >> 2)\
 | ((PORTB.IN & (1<<2)) >> 0)\
 | ((PORTB.IN & (1<<3)) << 3)\
@@ -375,24 +375,24 @@ ST7796S  tWC = 66ns  tWRH = 15ns  tRCFM = 450ns  tRC = 160ns
 static __attribute((always_inline))
  void write_8(uint8_t val)
 {
-	asm volatile("in __tmp_reg__,0x01" "\n\t"    //VPORTA.OUT
-	"BST %0,0" "\n\t" "BLD __tmp_reg__,2" "\n\t"
-	"BST %0,1" "\n\t" "BLD __tmp_reg__,3" "\n\t"
-	"out 0x01,__tmp_reg__" : : "a" (val));
-	asm volatile("in __tmp_reg__,0x05" "\n\t"    //VPORTB.OUT
-	"BST %0,2" "\n\t" "BLD __tmp_reg__,2" "\n\t"
-	"BST %0,6" "\n\t" "BLD __tmp_reg__,3" "\n\t"
-	"out 0x05,__tmp_reg__" : : "a" (val));
-	asm volatile("in __tmp_reg__,0x09" "\n\t"    //VPORTC.OUT
-	"BST %0,3" "\n\t" "BLD __tmp_reg__,6" "\n\t"
-	"BST %0,4" "\n\t" "BLD __tmp_reg__,7" "\n\t"
-	"out 0x09,__tmp_reg__" : : "a" (val));
-	asm volatile("in __tmp_reg__,0x11" "\n\t"    //VPORTE.OUT
-	"BST %0,7" "\n\t" "BLD __tmp_reg__,1" "\n\t"
-	"out 0x11,__tmp_reg__" : : "a" (val));
-	asm volatile("in __tmp_reg__,0x15" "\n\t"    //VPORTF.OUT
-	"BST %0,5" "\n\t" "BLD __tmp_reg__,6" "\n\t"
-	"out 0x15,__tmp_reg__" : : "a" (val));
+  asm volatile("in __tmp_reg__,0x01" "\n\t"    //VPORTA.OUT
+  "BST %0,0" "\n\t" "BLD __tmp_reg__,2" "\n\t"
+  "BST %0,1" "\n\t" "BLD __tmp_reg__,3" "\n\t"
+  "out 0x01,__tmp_reg__" : : "a" (val));
+  asm volatile("in __tmp_reg__,0x05" "\n\t"    //VPORTB.OUT
+  "BST %0,2" "\n\t" "BLD __tmp_reg__,2" "\n\t"
+  "BST %0,6" "\n\t" "BLD __tmp_reg__,3" "\n\t"
+  "out 0x05,__tmp_reg__" : : "a" (val));
+  asm volatile("in __tmp_reg__,0x09" "\n\t"    //VPORTC.OUT
+  "BST %0,3" "\n\t" "BLD __tmp_reg__,6" "\n\t"
+  "BST %0,4" "\n\t" "BLD __tmp_reg__,7" "\n\t"
+  "out 0x09,__tmp_reg__" : : "a" (val));
+  asm volatile("in __tmp_reg__,0x11" "\n\t"    //VPORTE.OUT
+  "BST %0,7" "\n\t" "BLD __tmp_reg__,1" "\n\t"
+  "out 0x11,__tmp_reg__" : : "a" (val));
+  asm volatile("in __tmp_reg__,0x15" "\n\t"    //VPORTF.OUT
+  "BST %0,5" "\n\t" "BLD __tmp_reg__,6" "\n\t"
+  "out 0x15,__tmp_reg__" : : "a" (val));
 }
 
 #define read_8()      ( ((VPORTA_IN & AMASK) >> 2)\
@@ -406,7 +406,7 @@ static __attribute((always_inline))
 #define setReadDir()  { VPORTA_DIR &= ~AMASK; VPORTB_DIR &= ~BMASK; VPORTC_DIR &= ~CMASK; VPORTE_DIR &= ~EMASK; VPORTF_DIR &= ~FMASK; }
 
 //#define WRITE_DELAY   { WR_ACTIVE; WR_ACTIVE; }   //6.47s no_inline
-#define WRITE_DELAY   { WR_ACTIVE2; WR_ACTIVE; }   //-Os=5.43s @20MHz always_inline. (-O1=5.41s, -O3=5.25s) 
+#define WRITE_DELAY   { WR_ACTIVE2; WR_ACTIVE; }   //-Os=5.43s @20MHz always_inline. (-O1=5.41s, -O3=5.25s)
 #define READ_DELAY    { RD_ACTIVE4; }              //ID=0x7789
 #define write8(x)     { write_8(x); WRITE_DELAY; WR_STROBE; }
 #define write16(x)    { uint8_t h = (x)>>8, l = x; write8(h); write8(l); }
@@ -473,20 +473,20 @@ static __attribute((always_inline))
 #if defined(USE_BLD_BST_MEGA2560)
 static __attribute((always_inline)) void write_8(uint8_t val)
 {
-	asm volatile("lds __tmp_reg__,0x0102" "\n\t"  //PORTH
-	"BST %0,0" "\n\t" "BLD __tmp_reg__,5" "\n\t"
-	"BST %0,1" "\n\t" "BLD __tmp_reg__,6" "\n\t"
-	"BST %0,6" "\n\t" "BLD __tmp_reg__,3" "\n\t"
-	"BST %0,7" "\n\t" "BLD __tmp_reg__,4" "\n\t"
-	"sts 0x0102,__tmp_reg__" : : "a" (val));
-	asm volatile("in __tmp_reg__,0x05" "\n\t"     //PORTB
-	"BST %0,2" "\n\t" "BLD __tmp_reg__,4" "\n\t"
-	"BST %0,3" "\n\t" "BLD __tmp_reg__,5" "\n\t"
-	"BST %0,5" "\n\t" "BLD __tmp_reg__,7" "\n\t"
-	"out 0x05,__tmp_reg__" : : "a" (val));
-	asm volatile("in __tmp_reg__,0x14" "\n\t"     //PORTG
-	"BST %0,4" "\n\t" "BLD __tmp_reg__,5" "\n\t"
-	"out 0x14,__tmp_reg__" : : "a" (val));
+  asm volatile("lds __tmp_reg__,0x0102" "\n\t"  //PORTH
+  "BST %0,0" "\n\t" "BLD __tmp_reg__,5" "\n\t"
+  "BST %0,1" "\n\t" "BLD __tmp_reg__,6" "\n\t"
+  "BST %0,6" "\n\t" "BLD __tmp_reg__,3" "\n\t"
+  "BST %0,7" "\n\t" "BLD __tmp_reg__,4" "\n\t"
+  "sts 0x0102,__tmp_reg__" : : "a" (val));
+  asm volatile("in __tmp_reg__,0x05" "\n\t"     //PORTB
+  "BST %0,2" "\n\t" "BLD __tmp_reg__,4" "\n\t"
+  "BST %0,3" "\n\t" "BLD __tmp_reg__,5" "\n\t"
+  "BST %0,5" "\n\t" "BLD __tmp_reg__,7" "\n\t"
+  "out 0x05,__tmp_reg__" : : "a" (val));
+  asm volatile("in __tmp_reg__,0x14" "\n\t"     //PORTG
+  "BST %0,4" "\n\t" "BLD __tmp_reg__,5" "\n\t"
+  "out 0x14,__tmp_reg__" : : "a" (val));
 }
 #else
 #define write_8(x) {  \
@@ -537,7 +537,7 @@ static __attribute((always_inline)) void write_8(uint8_t val)
                         PIOB->PIO_SODR = (((x) & (1<<5)) << 22); \
                         PIOC->PIO_SODR = (((x) & (1<<6)) << 18); \
                         PIOC->PIO_SODR = (((x) & (1<<7)) << 16); \
-					 }
+           }
 
 #define read_8()      ( ((PIOC->PIO_PDSR & (1<<22)) >> 22)\
                       | ((PIOC->PIO_PDSR & (1<<21)) >> 20)\
@@ -551,8 +551,8 @@ static __attribute((always_inline)) void write_8(uint8_t val)
 #define setWriteDir() { PIOB->PIO_OER = BMASK; PIOC->PIO_OER = CMASK; PIOD->PIO_OER = DMASK; }
 #define setReadDir()  { \
                           PMC->PMC_PCER0 = (1 << ID_PIOB)|(1 << ID_PIOC)|(1 << ID_PIOD);\
-						  PIOB->PIO_ODR = BMASK; PIOC->PIO_ODR = CMASK; PIOD->PIO_ODR = DMASK;\
-						}
+              PIOB->PIO_ODR = BMASK; PIOC->PIO_ODR = CMASK; PIOD->PIO_ODR = DMASK;\
+            }
 #define write8(x)     { write_8(x); WR_ACTIVE; WR_STROBE; }
 //#define write8(x)     { write_8(x); WR_ACTIVE; WR_STROBE; WR_IDLE; }
 #define write16(x)    { uint8_t h = (x)>>8, l = x; write8(h); write8(l); }
@@ -581,20 +581,20 @@ static __attribute((always_inline)) void write_8(uint8_t val)
 #define HMASK         0x78
 static __attribute((always_inline)) void write_8(uint8_t val)
 {
-	asm volatile("lds __tmp_reg__,0x0102" "\n\t"
-	"BST %0,0" "\n\t" "BLD __tmp_reg__,5" "\n\t"
-	"BST %0,1" "\n\t" "BLD __tmp_reg__,6" "\n\t"
-	"BST %0,6" "\n\t" "BLD __tmp_reg__,3" "\n\t"
-	"BST %0,7" "\n\t" "BLD __tmp_reg__,4" "\n\t"
-	"sts 0x0102,__tmp_reg__" : : "a" (val));
-	asm volatile("in __tmp_reg__,0x0E" "\n\t"
-	"BST %0,2" "\n\t" "BLD __tmp_reg__,4" "\n\t"
-	"BST %0,3" "\n\t" "BLD __tmp_reg__,5" "\n\t"
-	"BST %0,5" "\n\t" "BLD __tmp_reg__,3" "\n\t"
-	"out 0x0E,__tmp_reg__" : : "a" (val));
-	asm volatile("in __tmp_reg__,0x14" "\n\t"
-	"BST %0,4" "\n\t" "BLD __tmp_reg__,5" "\n\t"
-	"out 0x14,__tmp_reg__" : : "a" (val));
+  asm volatile("lds __tmp_reg__,0x0102" "\n\t"
+  "BST %0,0" "\n\t" "BLD __tmp_reg__,5" "\n\t"
+  "BST %0,1" "\n\t" "BLD __tmp_reg__,6" "\n\t"
+  "BST %0,6" "\n\t" "BLD __tmp_reg__,3" "\n\t"
+  "BST %0,7" "\n\t" "BLD __tmp_reg__,4" "\n\t"
+  "sts 0x0102,__tmp_reg__" : : "a" (val));
+  asm volatile("in __tmp_reg__,0x0E" "\n\t"
+  "BST %0,2" "\n\t" "BLD __tmp_reg__,4" "\n\t"
+  "BST %0,3" "\n\t" "BLD __tmp_reg__,5" "\n\t"
+  "BST %0,5" "\n\t" "BLD __tmp_reg__,3" "\n\t"
+  "out 0x0E,__tmp_reg__" : : "a" (val));
+  asm volatile("in __tmp_reg__,0x14" "\n\t"
+  "BST %0,4" "\n\t" "BLD __tmp_reg__,5" "\n\t"
+  "out 0x14,__tmp_reg__" : : "a" (val));
 }
 
 #define read_8()      ( ((PINH & (3<<5)) >> 5)\
@@ -624,7 +624,7 @@ static __attribute((always_inline)) void write_8(uint8_t val)
 #warning USE_MEGA_16BIT_SHIELD
 #define USES_16BIT_BUS
 #define RD_PORT PORTL
-#define RD_PIN  6        //PL6 (D43).   Graham has PA15 (D24) on Due Shield 
+#define RD_PIN  6        //PL6 (D43).   Graham has PA15 (D24) on Due Shield
 #define WR_PORT PORTG
 #define WR_PIN  2        //D39 CTE
 #define CD_PORT PORTD
@@ -656,7 +656,7 @@ static __attribute((always_inline)) void write_8(uint8_t val)
 //MEGA2560pin|29  |28  |27  |26  |25  |24  |23  |22  |  |43  |39  |38  |40  |41  |
 #warning USE_MEGA_8BIT_SHIELD for vagos21
 #define RD_PORT PORTL
-#define RD_PIN  6        //PL6 (D43).   Graham has PA15 (D24) on Due Shield 
+#define RD_PIN  6        //PL6 (D43).   Graham has PA15 (D24) on Due Shield
 #define WR_PORT PORTG
 #define WR_PIN  2        //D39 CTE
 #define CD_PORT PORTD
@@ -686,7 +686,7 @@ static __attribute((always_inline)) void write_8(uint8_t val)
 //MEGA2560pin|30  |31  |32  |33  |34  |35  |36  |37  |  |43  |39  |38  |40  |41  |
 #warning USE_MEGA_8BIT_PORTC_SHIELD for Mihael54
 #define RD_PORT PORTL
-#define RD_PIN  6        //PL6 (D43).   Graham has PA15 (D24) on Due Shield 
+#define RD_PIN  6        //PL6 (D43).   Graham has PA15 (D24) on Due Shield
 #define WR_PORT PORTG
 #define WR_PIN  2        //D39 CTE
 #define CD_PORT PORTD
@@ -759,22 +759,22 @@ static __attribute((always_inline)) void write_8(uint8_t val)
 #define EMASK         (1<<6)
 static __attribute((always_inline)) void write_8(uint8_t val)
 {
-	asm volatile("in __tmp_reg__,0x05" "\n\t"
-	"BST %0,0" "\n\t" "BLD __tmp_reg__,4" "\n\t"
-	"BST %0,1" "\n\t" "BLD __tmp_reg__,5" "\n\t"
-	"out 0x05,__tmp_reg__" : : "a" (val));
-	asm volatile("in __tmp_reg__,0x0B" "\n\t"
-	"BST %0,2" "\n\t" "BLD __tmp_reg__,1" "\n\t"
-	"BST %0,3" "\n\t" "BLD __tmp_reg__,0" "\n\t"
-	"BST %0,4" "\n\t" "BLD __tmp_reg__,4" "\n\t"
-	"BST %0,6" "\n\t" "BLD __tmp_reg__,7" "\n\t"
-	"out 0x0B,__tmp_reg__" : : "a" (val));
-	asm volatile("in __tmp_reg__,0x08" "\n\t"
-	"BST %0,5" "\n\t" "BLD __tmp_reg__,6" "\n\t"
-	"out 0x08,__tmp_reg__" : : "a" (val));
-	asm volatile("in __tmp_reg__,0x0E" "\n\t"
-	"BST %0,7" "\n\t" "BLD __tmp_reg__,6" "\n\t"
-	"out 0x0E,__tmp_reg__" : : "a" (val));
+  asm volatile("in __tmp_reg__,0x05" "\n\t"
+  "BST %0,0" "\n\t" "BLD __tmp_reg__,4" "\n\t"
+  "BST %0,1" "\n\t" "BLD __tmp_reg__,5" "\n\t"
+  "out 0x05,__tmp_reg__" : : "a" (val));
+  asm volatile("in __tmp_reg__,0x0B" "\n\t"
+  "BST %0,2" "\n\t" "BLD __tmp_reg__,1" "\n\t"
+  "BST %0,3" "\n\t" "BLD __tmp_reg__,0" "\n\t"
+  "BST %0,4" "\n\t" "BLD __tmp_reg__,4" "\n\t"
+  "BST %0,6" "\n\t" "BLD __tmp_reg__,7" "\n\t"
+  "out 0x0B,__tmp_reg__" : : "a" (val));
+  asm volatile("in __tmp_reg__,0x08" "\n\t"
+  "BST %0,5" "\n\t" "BLD __tmp_reg__,6" "\n\t"
+  "out 0x08,__tmp_reg__" : : "a" (val));
+  asm volatile("in __tmp_reg__,0x0E" "\n\t"
+  "BST %0,7" "\n\t" "BLD __tmp_reg__,6" "\n\t"
+  "out 0x0E,__tmp_reg__" : : "a" (val));
 }
 #define read_8()      ( ((PINB & (3<<4)) >> 4)\
 | ((PIND & (1<<1)) << 1)\
@@ -817,7 +817,7 @@ static __attribute((always_inline)) void write_8(uint8_t val)
 
 #define read_8()      ( PIOD->PIO_PDSR & DMASK)
   #define setWriteDir() { PIOD->PIO_OER = DMASK; PIOD->PIO_PER = DMASK; }
-  #define setReadDir()  { PMC->PMC_PCER0 = (1 << ID_PIOD); PIOD->PIO_ODR = DMASK;}      
+  #define setReadDir()  { PMC->PMC_PCER0 = (1 << ID_PIOD); PIOD->PIO_ODR = DMASK;}
 #define write8(x)     { write_8(x); WR_ACTIVE; WR_STROBE; WR_IDLE; WR_IDLE; }
 #define write16(x)    { uint8_t h = (x)>>8, l = x; write8(h); write8(l); }
 #define READ_8(dst)   { RD_STROBE; RD_ACTIVE4; dst = read_8(); RD_IDLE; RD_IDLE; RD_IDLE; }
@@ -840,9 +840,9 @@ static __attribute((always_inline)) void write_8(uint8_t val)
 #define CS_PIN  2      //D27
 #define RESET_PORT PIOD
 #define RESET_PIN  3   //D28
-// configure macros for data bus 
+// configure macros for data bus
 // DB0..DB7 on PIOC1..PIOC8,  DB8..DB15 on PIOC12..PIOC19
-// 
+//
 #define CMASKH        (0xFF00<<4)
 #define CMASKL        (0x00FF<<1)
 #define CMASK         (CMASKH | CMASKL)
@@ -887,9 +887,9 @@ static __attribute((always_inline)) void write_8(uint8_t val)
 #define CS_PIN  7      //D31
 #define RESET_PORT PIOC
 #define RESET_PIN  1   //D33
-// configure macros for data bus 
+// configure macros for data bus
 // DB0..DB7 on PIOC2..PIOC9,  DB8..DB15 on PIOC12..PIOC19
-// 
+//
 #define CMASKH        (0xFF00<<4)
 #define CMASKL        (0x00FF<<2)
 #define CMASK         (CMASKH | CMASKL)
@@ -933,8 +933,8 @@ static __attribute((always_inline)) void write_8(uint8_t val)
 #define CS_PIN  8      //D40
 #define RESET_PORT PIOC
 #define RESET_PIN  9   //D41
-// configure macros for data bus 
-// 
+// configure macros for data bus
+//
 #define AMASK         ((1<<7)|(3<<14))          //PA7, PA14-PA15
 #define BMASK         (1<<26)                   //PB26
 #define CMASK         (31<<1)                   //PC1-PC5
@@ -949,14 +949,14 @@ static __attribute((always_inline)) void write_8(uint8_t val)
                         PIOC->PIO_SODR = (((x)&(1<<3))>>1); \
                         PIOC->PIO_SODR = (((x)&(1<<4))>>3); \
                         PIOD->PIO_SODR = (((x)&(1<<7))<<2)|(((x)&(1<<5))<<5)|(((x)&(15<<11))>>11)|(((x)&(1<<15))>>9); \
-					  }
+            }
 
 /*
 #define write_16(VL)   { PIOA->PIO_CODR = AMASK; PIOC->PIO_CODR = CMASK; PIOD->PIO_CODR = DMASK; \
-		REG_PIOA_SODR=((((VL)>>8) & 0x06)<<13) | ((VL & 0x40)<<1);\
-		if ((VL)&(1<<8)) REG_PIOB_SODR=(1<<26); else REG_PIOB_CODR=(1<<26);\
-		REG_PIOC_SODR=((VL & 0x01)<<5) | ((VL & 0x02)<<3) | ((VL & 0x04)<<1) | ((VL & 0x08)>>1) | ((VL & 0x10)>>3);\
-		REG_PIOD_SODR=((((VL)>>8) & 0x78)>>3) | ((((VL)>>8) & 0x80)>>1) | ((VL & 0x20)<<5) | ((VL & 0x80)<<2);\
+    REG_PIOA_SODR=((((VL)>>8) & 0x06)<<13) | ((VL & 0x40)<<1);\
+    if ((VL)&(1<<8)) REG_PIOB_SODR=(1<<26); else REG_PIOB_CODR=(1<<26);\
+    REG_PIOC_SODR=((VL & 0x01)<<5) | ((VL & 0x02)<<3) | ((VL & 0x04)<<1) | ((VL & 0x08)>>1) | ((VL & 0x10)>>3);\
+    REG_PIOD_SODR=((((VL)>>8) & 0x78)>>3) | ((((VL)>>8) & 0x80)>>1) | ((VL & 0x20)<<5) | ((VL & 0x80)<<2);\
 }
 */
 #define read_16()     ( 0\
@@ -982,11 +982,11 @@ static __attribute((always_inline)) void write_8(uint8_t val)
                       }
 #define setReadDir()  { \
                         PMC->PMC_PCER0 = (1 << ID_PIOA)|(1 << ID_PIOB)|(1 << ID_PIOC)|(1 << ID_PIOD); \
-						PIOA->PIO_ODR = AMASK; \
-						PIOB->PIO_ODR = BMASK; \
-						PIOC->PIO_ODR = CMASK; \
-						PIOD->PIO_ODR = DMASK; \
-					  }
+            PIOA->PIO_ODR = AMASK; \
+            PIOB->PIO_ODR = BMASK; \
+            PIOC->PIO_ODR = CMASK; \
+            PIOD->PIO_ODR = DMASK; \
+            }
 #define write8(x)     { write16(x & 0xFF); }
 // ILI9486 is slower than ILI9481
 #define write16(x)    { write_16(x); WRITE_DELAY; WR_STROBE; IDLE_DELAY;}
@@ -1017,8 +1017,8 @@ static __attribute((always_inline)) void write_8(uint8_t val)
 #define CS_PIN  8      //D40
 #define RESET_PORT PIOC
 #define RESET_PIN  9   //D41
-// configure macros for data bus 
-// 
+// configure macros for data bus
+//
 #define AMASK         ((3<<14))                 //PA14-PA15    D23-D24
 #define BMASK         (1<<26)                   //PB26         D22
 #define DMASK         ((15<<0)|(1<<6))          //PD0-PD3, PD6 D25-D28,D29
@@ -1028,7 +1028,7 @@ static __attribute((always_inline)) void write_8(uint8_t val)
                         PIOA->PIO_SODR = (((x)&(3<<1))<<13); \
                         PIOD->PIO_SODR = (((x)&(15<<3))>>3); \
                         PIOD->PIO_SODR = (((x)&(1<<7))>>1); \
-					  }
+            }
 
 #define read_8()     ( 0\
                         |((PIOB->PIO_PDSR & (1<<26))>>26)\
@@ -1044,10 +1044,10 @@ static __attribute((always_inline)) void write_8(uint8_t val)
                       }
 #define setReadDir()  { \
                         PMC->PMC_PCER0 = (1 << ID_PIOA)|(1 << ID_PIOB)|(1 << ID_PIOC)|(1 << ID_PIOD); \
-						PIOA->PIO_ODR = AMASK; \
-						PIOB->PIO_ODR = BMASK; \
-						PIOD->PIO_ODR = DMASK; \
-					  }
+            PIOA->PIO_ODR = AMASK; \
+            PIOB->PIO_ODR = BMASK; \
+            PIOD->PIO_ODR = DMASK; \
+            }
 
 // ILI9486 is slower than ILI9481. HX8357-D is slower
 #define write8(x)     { write_8(x); WRITE_DELAY; WR_STROBE; IDLE_DELAY; }
@@ -1079,8 +1079,8 @@ static __attribute((always_inline)) void write_8(uint8_t val)
 #define CS_PIN  8      //D40
 #define RESET_PORT PIOC
 #define RESET_PIN  9   //D41
-// configure macros for data bus 
-// 
+// configure macros for data bus
+//
 #define AMASK         (1<<7)                    //PA7          D31
 #define CMASK         (31<<1)                   //PC1-PC5      D33-D37
 #define DMASK         (3<<9)                    //PD9,PD10     D30,D32
@@ -1093,7 +1093,7 @@ static __attribute((always_inline)) void write_8(uint8_t val)
                         PIOC->PIO_SODR = (((x)&(1<<3))>>1); \
                         PIOC->PIO_SODR = (((x)&(1<<4))>>3); \
                         PIOD->PIO_SODR = (((x)&(1<<7))<<2)|(((x)&(1<<5))<<5); \
-					  }
+            }
 
 #define read_8()     ( 0\
                         |((PIOC->PIO_PDSR & (1<<5))>>5)\
@@ -1113,10 +1113,10 @@ static __attribute((always_inline)) void write_8(uint8_t val)
                       }
 #define setReadDir()  { \
                         PMC->PMC_PCER0 = (1 << ID_PIOA)|(1 << ID_PIOB)|(1 << ID_PIOC)|(1 << ID_PIOD); \
-						PIOA->PIO_ODR = AMASK; \
-						PIOC->PIO_ODR = CMASK; \
-						PIOD->PIO_ODR = DMASK; \
-					  }
+            PIOA->PIO_ODR = AMASK; \
+            PIOC->PIO_ODR = CMASK; \
+            PIOD->PIO_ODR = DMASK; \
+            }
 
 // ILI9486 is slower than ILI9481. HX8357-D is slower
 #define write8(x)     { write_8(x); WRITE_DELAY; WR_STROBE; IDLE_DELAY; }
@@ -1150,7 +1150,7 @@ static __attribute((always_inline)) void write_8(uint8_t val)
    GPIOC_PCOR = CMASK; GPIOD_PCOR = DMASK; \
    GPIOC_PSOR = (((d) & (1<<1)) << 2); \
    GPIOD_PSOR = (d) & DMASK; \
-  } 
+  }
   #define read_8() (          (GPIOD_PDIR & DMASK) | (GPIOC_PDIR & (1<<3)) >> 2 )
   #define setWriteDir() {GPIOC_PDDR |=  CMASK;GPIOD_PDDR |=  DMASK; }
   #define setReadDir()  {GPIOC_PDDR &= ~CMASK;GPIOD_PDDR &= ~DMASK; }
@@ -1215,7 +1215,7 @@ static __attribute((always_inline)) void write_8(uint8_t val)
                        GPIOB->REGS(BSRR) = (((d) & 0x0C) << 4); \
                        }
 #define read_8()      (((GPIOA->REGS(IDR) & (3<<9)) >> 9) | ((GPIOA->REGS(IDR) & (0x0F)) << 4) | ((GPIOB->REGS(IDR) & (3<<6)) >> 4))
-//                                     PA10,PA9                     PA3-PA0                         PB7,PB6  
+//                                     PA10,PA9                     PA3-PA0                         PB7,PB6
 #define setWriteDir() {GP_OUT(GPIOA, CRH, 0xFF0); GP_OUT(GPIOA, CRL, 0xFFFF); GP_OUT(GPIOB, CRL, 0xFF000000); }
 #define setReadDir()  {GP_INP(GPIOA, CRH, 0xFF0); GP_INP(GPIOA, CRL, 0xFFFF); GP_INP(GPIOB, CRL, 0xFF000000); }
 
@@ -1240,13 +1240,13 @@ static __attribute((always_inline)) void write_8(uint8_t val)
 #define WR_PORT GPIOA
 #define WR_PIN 5        //25 WR
 #define CD_PORT GPIOE
-#define CD_PIN 26       //24 RS 
+#define CD_PIN 26       //24 RS
 #define CS_PORT GPIOA
 #define CS_PIN 14       //26 CS
 #define RESET_PORT GPIOA
 #define RESET_PIN 15    //27 Reset
 
-#define write_8(d) { GPIOC_PDOR = d; } 
+#define write_8(d) { GPIOC_PDOR = d; }
 #define write_16(d) { GPIOC_PDOR = d; GPIOD_PDOR = (d >> 8);}
 
 #define read_8() (GPIOC_PDIR)
@@ -1258,7 +1258,7 @@ static __attribute((always_inline)) void write_8(uint8_t val)
 #define write8(x)     {write_8(x); WRITE_DELAY; WR_STROBE }
 #define write16(x)    {write_16(x); WRITE_DELAY; WR_STROBE }
 
-#define READ_8(dst) { RD_STROBE; READ_DELAY; dst = read_8(); RD_IDLE; } 
+#define READ_8(dst) { RD_STROBE; READ_DELAY; dst = read_8(); RD_IDLE; }
 #define READ_16(dst) { RD_STROBE; READ_DELAY; dst = read_16(); RD_IDLE;}
 
 //Data: Teensy pins -> D0-D15 :

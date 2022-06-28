@@ -10,8 +10,8 @@
 #include <SD.h>             // Use the official SD library on hardware pins
 
 #include <Adafruit_GFX.h>   // Hardware-specific library
-#include <MCUFRIEND_kbv.h>
-MCUFRIEND_kbv tft;
+#include <MCUFRIEND_kbv_mods.h>
+MCUFRIEND_kbv_mods tft;
 
 #if defined(ESP32)
 #define SD_CS     5

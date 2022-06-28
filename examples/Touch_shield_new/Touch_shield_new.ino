@@ -4,8 +4,8 @@
 // and rotation.
 // Run the TouchScreen_Calibr_native sketch for calibration of your shield
 
-#include <MCUFRIEND_kbv.h>
-MCUFRIEND_kbv tft;       // hard-wired for UNO shields anyway.
+#include <MCUFRIEND_kbv_mods.h>
+MCUFRIEND_kbv_mods tft;       // hard-wired for UNO shields anyway.
 #include <TouchScreen.h>
 
 char *name = "Please Calibrate.";  //edit name of shield

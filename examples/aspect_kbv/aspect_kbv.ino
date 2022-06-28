@@ -1,6 +1,6 @@
 #include <Adafruit_GFX.h> // Hardware-specific library
-#include <MCUFRIEND_kbv.h>
-MCUFRIEND_kbv tft;
+#include <MCUFRIEND_kbv_mods.h>
+MCUFRIEND_kbv_mods tft;
 
 void setup()
 {

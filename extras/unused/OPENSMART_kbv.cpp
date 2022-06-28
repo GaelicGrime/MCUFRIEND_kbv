@@ -15,6 +15,6 @@
 
 #include "OPENSMART_kbv.h"              //class declaration
 
-#define MCUFRIEND_kbv OPENSMART_kbv     //rename the class scope 
+#define MCUFRIEND_kbv_mods OPENSMART_kbv     //rename the class scope 
 
-#include "MCUFRIEND_kbv.cpp"            //same methods, but with OPENSMART_kbv class scope
+#include "MCUFRIEND_kbv_mods.cpp"            //same methods, but with OPENSMART_kbv class scope

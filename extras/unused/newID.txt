@@ -1,0 +1,67 @@
+Diagnose whether this controller is supported
+There are FAQs inDiagnose whether this controller is supported
+There are FAQs in extras/mcufriend_how_to.txt
+
+tft.readID() finds: ID = 0x50
+
+MCUFRIEND_kbv version: 3.0.0
+
+
+This ID is not supported
+look up ID in extras/mcufriend_how_to.txt
+you may need to edit MCUFRIEND_kbv.cpp
+to enable support for this ID
+e.g. #define SUPPORT_8347D
+
+New controllers appear on Ebay often
+If your ID is not supported
+run LCD_ID_readreg.ino from examples/
+Copy-Paste the output from the Serial Terminal
+to a message in Displays topic on Arduino Forum
+or to Issues on GitHub
+
+Note that OPEN-SMART boards have diff pinout
+Edit the pin defines in LCD_ID_readreg to match
+Edit mcufiend_shield.h for USE_SPECIAL
+Edit mcufiend_special.h for USE_OPENSMART_SHIELD_PINOUT
+Read Registers on MCUFRIEND UNO shield
+controllers either read ⸮Read Registers on MCUFRIEND UNO shield
+controllers either read as single 16-bit
+e.g. the ID is at readReg(0)
+or as a sequence of 8-bit values
+in special locations (first is dummy)
+
+reg(0x0000) 00 00	ID: ILI9320, ILI9325, ILI9335, ...
+reg(0x0004) 04 04 04 04	Manufacturer ID
+reg(0x0009) 08 08 08 08 08	Status Register
+reg(0x000A) 08 08	Get Power Mode
+reg(0x000C) 0C 0C	Get Pixel Format
+reg(0x0061) 20 20	RDID1 HX8347-G
+reg(0x0062) 20 20	RDID2 HX8347-G
+reg(0x0063) 20 20	RDID3 HX8347-G
+reg(0x0064) 24 24	RDID1 HX8347-A
+reg(0x0065) 24 24	RDID2 HX8347-A
+reg(0x0066) 24 24	RDID3 HX8347-A
+reg(0x0067) 24 24	RDID Himax HX8347-A
+reg(0x0070) 20 20	Panel Himax HX8347-A
+reg(0x00A1) 20 20 F3 20 20	RD_DDB SSD1963
+reg(0x00B0) 20 20	RGB Interface Signal Control
+reg(0x00B4) 24 24	Inversion Control
+reg(0x00B6) 24 24 24 24 24	Display Control
+reg(0x00B7) 24 26	Entry Mode Set
+reg(0x00BF) 2E 2E 2C 2C 2C 2C	ILI9481, HX8357-B
+reg(0x00C0) 00 00 00 00 00 00 00 00 00	Panel Control
+reg(0x00C8) 08 08 08 08 08 08 08 08 08 08 08 08 08	GAMMA
+reg(0x00CC) 0C 0C	Panel Control
+reg(0x00D0) 00 00 00	Power Control
+reg(0x00D2) 00 00 00 00 00	NVM Read
+reg(0x00D3) 00 00 00 00	ILI9341, ILI9488
+reg(0x00D4) 04 04 04 04	Novatek ID
+reg(0x00DA) 08 08	RDID1
+reg(0x00DB) 08 08	RDID2
+reg(0x00DC) 0C 0C	RDID3
+reg(0x00E0) 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20	GAMMA-P
+reg(0x00E1) 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20	GAMMA-N
+reg(0x00EF) 2C 2C 2C 2C 2C 2C	ILI9327
+reg(0x00F2) 20 20 20 20 20 20 20 20 20 20 20 20	Adjust Control 2
+reg(0x00F6) 24 24 24 24	Interface Control
